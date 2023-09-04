@@ -23,6 +23,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     void Start()
     {
         ActivatePanel("LoginPanel");
+        PhotonNetwork.AutomaticallySyncScene = true;
     }
     void Update()
     {
@@ -96,6 +97,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         else
         {
             Debug.Log("Room name is invalid");
+        }
+    }
+
+    public void OnPlayClick()
+    {
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("Game");
         }
     }
 
