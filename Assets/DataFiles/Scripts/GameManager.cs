@@ -1,11 +1,10 @@
 using UnityEngine;
 using Photon.Pun;
-
-public class GameManager : MonoBehaviour
+using UnityEngine.SceneManagement;
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab, exitToLobbyButton;
 
-    readonly PhotonManager photonManager;
     void Start()
     {
         if(PhotonNetwork.IsConnectedAndReady)
@@ -16,6 +15,12 @@ public class GameManager : MonoBehaviour
     
     public void OnExitToLobbyClick()
     {
-        photonManager.OnLeaveRoomClick();
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public override void OnLeftRoom()
+    {
+        Debug.Log("Entering Lobby");
+        SceneManager.LoadScene("Lobby");
     }
 }

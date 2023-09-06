@@ -12,14 +12,34 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public GameObject loginPanel, connectingPanel, lobbyPanel, createRoomPanel, playGamePanel, joinRoomPanel;
     public GameObject playerListContent, playDetails;
     public GameObject playButton;
+    public Button readyButton;
+    public TMP_Text readyCountText;
+
     #endregion
 
     #region Private_Variables
     private Dictionary<int, GameObject> playerListEntries;
 
     #endregion
+    
+    // Singleton initialization
+    public static PhotonManager Instance;
 
     #region UnityMethods
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+        // Instance.lobbyPanel = GameObject.Find("Canvas").transform.Find("LobbyPanel").gameObject;
+    }
     void Start()
     {
         ActivatePanel("LoginPanel");
@@ -29,6 +49,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Network State: " + PhotonNetwork.NetworkClientState);
     }
+    
     #endregion
 
     #region UIMethods
@@ -100,14 +121,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
-    public void OnPlayClick()
-    {
-        if(PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.LoadLevel("Game");
-        }
-    }
-
     #endregion
 
     #region Utility Methods
@@ -136,6 +149,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             playerListEntries.Add(player.ActorNumber, playerObj);
         }
     }
+
     #endregion
 
     #region Photon_Callbacks
@@ -146,7 +160,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("Disconnected from Photon: " + cause.ToString());
+        Player player = PhotonNetwork.LocalPlayer;
+        Destroy(playerListEntries[player.ActorNumber].gameObject);
+        playerListEntries.Remove(player.ActorNumber);
+        Debug.Log(player.NickName +  " disconnected from Photon: " + cause.ToString());
     }
 
     public override void OnConnectedToMaster()
