@@ -7,8 +7,12 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
 {
     public Button readyButton, playButton;
     public TMP_Text readyCountText;
-    private int readyCount = 0;
-    private bool isMasterClient => PhotonNetwork.IsMasterClient;
+    
+    [HideInInspector]
+    public int readyCount = 0;
+
+    [HideInInspector]
+    public bool isMasterClient => PhotonNetwork.IsMasterClient;
 
     void Start()
     {
@@ -45,12 +49,35 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
         {
             playButton.interactable = true;
         }
+
+        if(!isMasterClient)
+        {
+            readyButton.interactable = false;
+        }
     }
 
     [PunRPC]
     void StartGame()
     {
+        PhotonManager.Instance.playGamePanel.SetActive(false);
         PhotonNetwork.LoadLevel("Game");
         Debug.Log("Game Started!");
     }
+
+    // trying to reset and re-enable this ready system when a player leaves prev game, creates a new room and other players join it
+    // not working
+    // public override void OnJoinedRoom()
+    // {
+    //     readyCount = 0;
+    //     readyCountText.text = $"Ready Players: {readyCount}";
+    //     playButton.interactable = isMasterClient;
+    // }
+
+    // public override void OnPlayerLeftRoom(Photon.Realtime.Player otherPlayer)
+    // {
+    //     if (isMasterClient && readyCount != PhotonNetwork.PlayerList.Length)
+    //     {
+    //         playButton.interactable = false;
+    //     }
+    // }
 }

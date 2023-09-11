@@ -21,12 +21,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     private Dictionary<int, GameObject> playerListEntries;
 
     #endregion
-    
+
     // Singleton initialization
     public static PhotonManager Instance;
 
     #region UnityMethods
-
     void Awake()
     {
         if (Instance == null)
@@ -38,11 +37,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
-        // Instance.lobbyPanel = GameObject.Find("Canvas").transform.Find("LobbyPanel").gameObject;
     }
     void Start()
     {
-        ActivatePanel("LoginPanel");
+        ActivatePanel(loginPanel.name);
         PhotonNetwork.AutomaticallySyncScene = true;
     }
     void Update()
@@ -85,6 +83,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         string room = newRoomName.text;
 
+        if(maxPlayers.text == "")
+        {
+            maxPlayers.text = "4";
+        }
+
         if (!string.IsNullOrEmpty(room))
         {
             RoomOptions roomOptions = new()
@@ -95,10 +98,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             };
             PhotonNetwork.CreateRoom(room, roomOptions);
         }
+
         else
         {
-            Debug.LogError("Setting a random room name...");
-            RoomOptions roomOptions = new RoomOptions
+            RoomOptions roomOptions = new()
             {
                 IsVisible = true,  // Make sure the room is visible
                 IsOpen = true      // Make sure the room is open
@@ -160,10 +163,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Player player = PhotonNetwork.LocalPlayer;
-        Destroy(playerListEntries[player.ActorNumber].gameObject);
-        playerListEntries.Remove(player.ActorNumber);
-        Debug.Log(player.NickName +  " disconnected from Photon: " + cause.ToString());
+        PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName +  " disconnected from Photon: " + cause.ToString());
     }
 
     public override void OnConnectedToMaster()
@@ -180,6 +181,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined room " + PhotonNetwork.CurrentRoom.Name + " successfully!");
+
         ActivatePanel(playGamePanel.name);
 
         if(PhotonNetwork.IsMasterClient)
@@ -200,6 +202,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         AddPlayerToList(newPlayer);
     }
 
+    // Called for REMOTE PLAYER (if any player other than me leaves)
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         Destroy(playerListEntries[otherPlayer.ActorNumber].gameObject);
@@ -210,7 +213,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             playButton.SetActive(true);
         }
     }
-
+    
+    // Called for LOCAL PLAYER (if I leave)
+    /// <summary>
+    /// Local player is me. For me eveyr other player is remote player.
+    /// So, when I leave, I need to destroy all the remote players on my game
+    /// (this does not destroy all players from every player's game)
+    /// </summary>
     public override void OnLeftRoom()
     {
         foreach(GameObject player in playerListEntries.Values)

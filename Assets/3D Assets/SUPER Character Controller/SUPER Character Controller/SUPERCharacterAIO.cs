@@ -1,4 +1,5 @@
 //Original Code Author: Aedan Graves
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -843,7 +844,7 @@ public class SUPERCharacterAIO : MonoBehaviour{
         if((currentGroundInfo.isGettingGroundInfo) && !Jumped && !isSliding && !doingPosInterp)
         {
             //Deceleration
-            if(Direction.magnitude==0 && p_Rigidbody.velocity.normalized.magnitude>0.1f){
+            if(Direction.magnitude==0&& p_Rigidbody.velocity.normalized.magnitude>0.1f){
                 p_Rigidbody.AddForce(-new Vector3(p_Rigidbody.velocity.x,currentGroundInfo.isInContactWithGround? p_Rigidbody.velocity.y-  Physics.gravity.y:0,p_Rigidbody.velocity.z)*(decelerationSpeed*Time.fixedDeltaTime),ForceMode.Force); 
             }
             //normal speed
@@ -1143,7 +1144,7 @@ public class SUPERCharacterAIO : MonoBehaviour{
                         }
 
 
-                        else if((canCrouch && crouchInput_FrameOf)||crouchOverride){
+                        else if((canCrouch&& crouchInput_FrameOf)||crouchOverride){
                             isCrouching = true;
                             isSprinting = false;
                             currentGroundSpeed = crouchingSpeed;
@@ -1163,10 +1164,8 @@ public class SUPERCharacterAIO : MonoBehaviour{
                         break;
                     }
                 }
-                
                 case GroundSpeedProfiles.Sliding:{
-                }
-                break;
+                }break;
             }
         }
     }
@@ -1463,6 +1462,7 @@ public class SUPERCharacterAIO : MonoBehaviour{
                             _3rdPersonCharacterAnimator.SetBool(a_Grounded, true); 
                         }
                     }
+                    
                 }
 
             }break;
@@ -1577,7 +1577,9 @@ public class SUPERCharacterAIO : MonoBehaviour{
         p_Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
         p_Rigidbody.isKinematic = false;
     }
+
 }
+
 
 #region Classes and Enums
 [System.Serializable]
@@ -1630,6 +1632,7 @@ public interface ICollectable{
     void Collect();
 }
 #endregion
+
 
 #region Editor Scripting
 #if UNITY_EDITOR

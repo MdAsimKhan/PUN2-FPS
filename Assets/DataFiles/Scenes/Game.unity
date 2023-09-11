@@ -8600,7 +8600,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eb55312ed89ddc49a22c82e054e7cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 6438099659354516611, guid: baaac2fa9e369854e9875f1faba4a87d, type: 3}
+  playerPrefab: {fileID: 8851995051652364989, guid: ba94c8c9d26c3bb4ba1847563877a651, type: 3}
   exitToLobbyButton: {fileID: 1845884518}
 --- !u!4 &117628269
 Transform:
@@ -80021,7 +80021,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1626694906
 MonoBehaviour:
   m_ObjectHideFlags: 0

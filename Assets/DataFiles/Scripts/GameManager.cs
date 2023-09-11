@@ -1,6 +1,7 @@
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab, exitToLobbyButton;

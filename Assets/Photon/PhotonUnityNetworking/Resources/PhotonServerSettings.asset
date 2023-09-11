@@ -41,6 +41,8 @@ MonoBehaviour:
   - RespawnSpaceship
   - StartGame
   - UpdateReadyCount
+  - TakeDamage
+  - CreateEffect
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 0
