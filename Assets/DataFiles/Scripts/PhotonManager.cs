@@ -13,7 +13,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public GameObject playerListContent, playDetails;
     public GameObject playButton;
     public Button readyButton;
-    public TMP_Text readyCountText;
+    public TMP_Text roomName;
 
     #endregion
 
@@ -22,22 +22,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     #endregion
 
-    // Singleton initialization
-    public static PhotonManager Instance;
-
     #region UnityMethods
-    void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     void Start()
     {
         ActivatePanel(loginPanel.name);
@@ -183,6 +168,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Debug.Log(PhotonNetwork.LocalPlayer.NickName + " joined room " + PhotonNetwork.CurrentRoom.Name + " successfully!");
 
         ActivatePanel(playGamePanel.name);
+        roomName.text = "Room: " + PhotonNetwork.CurrentRoom.Name;
 
         if(PhotonNetwork.IsMasterClient)
         {

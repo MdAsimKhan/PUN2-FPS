@@ -1,27 +1,30 @@
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
+using Photon.Realtime;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public GameObject playerPrefab, exitToLobbyButton;
+    public GameObject playerPrefab;
+    public TMP_Text playerName;
 
+    #region UnityMethods
     void Start()
     {
         if(PhotonNetwork.IsConnectedAndReady)
         {
             PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10)), Quaternion.identity);
+            playerName.text = PhotonNetwork.LocalPlayer.NickName;
         }
     }
-    
-    public void OnExitToLobbyClick()
-    {
-        PhotonNetwork.LeaveRoom();
-    }
+    #endregion
 
-    public override void OnLeftRoom()
-    {
-        Debug.Log("Entering Lobby");
-        SceneManager.LoadScene("Lobby");
-    }
+    #region UtilityMethods
+
+    #endregion
+
+    #region PunCallbacks
+    
+    #endregion
 }

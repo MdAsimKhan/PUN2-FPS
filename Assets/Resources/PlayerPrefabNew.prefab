@@ -7992,6 +7992,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FPS_Camera: {fileID: 3627746926336150440}
   bloodEffect: {fileID: 1013274939826982, guid: ffbf169ab9dcfdc45ae14010bc82a6b2, type: 3}
+  playerCount: {fileID: 0}
+  killCount: {fileID: 0}
+  killMsg: {fileID: 0}
   maxHealth: 100
   curHealth: 0
   healthBar: {fileID: 4527003908644071392}

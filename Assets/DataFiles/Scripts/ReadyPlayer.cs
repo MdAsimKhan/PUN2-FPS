@@ -7,6 +7,7 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
 {
     public Button readyButton, playButton;
     public TMP_Text readyCountText;
+    public PhotonManager photonManager;
     
     [HideInInspector]
     public int readyCount = 0;
@@ -16,6 +17,7 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        photonManager = GameObject.Find("PhotonManager").GetComponent<PhotonManager>();
         // Initialize UI elements
         readyButton.onClick.AddListener(OnReadyButtonClicked);
         playButton.onClick.AddListener(OnPlayButtonClicked);
@@ -59,7 +61,7 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
     [PunRPC]
     void StartGame()
     {
-        PhotonManager.Instance.playGamePanel.SetActive(false);
+        photonManager.playGamePanel.SetActive(false);
         PhotonNetwork.LoadLevel("Game");
         Debug.Log("Game Started!");
     }
