@@ -25,7 +25,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     #region UnityMethods
     void Start()
     {
-        ActivatePanel(loginPanel.name);
+        if(PhotonNetwork.IsConnected)
+        {
+            ActivatePanel(lobbyPanel.name);
+        }
+        else
+        {
+            ActivatePanel(loginPanel.name);
+        }
         PhotonNetwork.AutomaticallySyncScene = true;
     }
     void Update()
@@ -117,9 +124,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         loginPanel.SetActive(panelName.Equals(loginPanel.name));
         connectingPanel.SetActive(panelName.Equals(connectingPanel.name));
         lobbyPanel.SetActive(panelName.Equals(lobbyPanel.name));
-        playGamePanel.SetActive(panelName.Equals(playGamePanel.name));
-        createRoomPanel.SetActive(panelName.Equals(createRoomPanel.name));
         joinRoomPanel.SetActive(panelName.Equals(joinRoomPanel.name));
+        createRoomPanel.SetActive(panelName.Equals(createRoomPanel.name));
+        playGamePanel.SetActive(panelName.Equals(playGamePanel.name));
     }
 
     private void AddPlayerToList(Player player)

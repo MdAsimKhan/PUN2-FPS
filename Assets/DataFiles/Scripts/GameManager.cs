@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region PunCallbacks
-    
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Gameover");
+    }
     #endregion
 }

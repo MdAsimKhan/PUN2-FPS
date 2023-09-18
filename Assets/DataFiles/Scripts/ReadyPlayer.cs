@@ -28,7 +28,7 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
 
     void OnReadyButtonClicked()
     {
-        // Send an RPC to all clients to update the ready count
+        // Send an RPC to all clients to update the ready count by 1
         photonView.RPC("UpdateReadyCount", RpcTarget.AllBuffered, 1);
     }
 
@@ -50,6 +50,7 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
         if (isMasterClient && readyCount == PhotonNetwork.PlayerList.Length)
         {
             playButton.interactable = true;
+            readyButton.interactable = false;
         }
 
         if(!isMasterClient)
@@ -63,7 +64,6 @@ public class ReadyPlayer : MonoBehaviourPunCallbacks
     {
         photonManager.playGamePanel.SetActive(false);
         PhotonNetwork.LoadLevel("Game");
-        Debug.Log("Game Started!");
     }
 
     // trying to reset and re-enable this ready system when a player leaves prev game, creates a new room and other players join it
