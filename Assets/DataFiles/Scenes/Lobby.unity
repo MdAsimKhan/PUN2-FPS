@@ -2202,7 +2202,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 1
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -5116,8 +5116,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 758, y: 442}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 791, y: 441.99994}
+  m_SizeDelta: {x: 266, y: 98.0277}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1459384602
 GameObject:
@@ -5769,7 +5769,7 @@ MonoBehaviour:
   playGamePanel: {fileID: 1085274442}
   joinRoomPanel: {fileID: 1901982972}
   playerListContent: {fileID: 601530833}
-  playDetails: {fileID: 7227427773001544997, guid: 3102de57b6bf7cf46b777eb936ebc535, type: 3}
+  playDetails: {fileID: 1631399882405410726, guid: 3102de57b6bf7cf46b777eb936ebc535, type: 3}
   playButton: {fileID: 115127626}
   readyButton: {fileID: 1721238244}
   roomName: {fileID: 1849202074}
@@ -6707,8 +6707,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -16, y: -73}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 3.0126991, y: -63.39447}
+  m_SizeDelta: {x: 1242, y: 59.6055}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1849202074
 MonoBehaviour:
@@ -7887,7 +7887,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 5
+  m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 80
   m_CharacterLimit: 0

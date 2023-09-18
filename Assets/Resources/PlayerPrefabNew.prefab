@@ -7995,6 +7995,7 @@ MonoBehaviour:
   playerCount: {fileID: 0}
   killCount: {fileID: 0}
   killMsg: {fileID: 0}
+  debugMessage: {fileID: 0}
   maxHealth: 100
   curHealth: 0
   healthBar: {fileID: 4527003908644071392}

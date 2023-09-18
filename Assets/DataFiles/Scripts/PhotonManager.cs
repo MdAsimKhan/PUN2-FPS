@@ -45,7 +45,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     #region UIMethods
     public void OnLoginClick()
     {
-        string name = playerName.text;
+        string name = playerName.text + "_" + System.Guid.NewGuid().ToString("N")[..4];
 
         if(!string.IsNullOrEmpty(name))
         {
