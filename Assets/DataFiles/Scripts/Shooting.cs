@@ -33,7 +33,6 @@ public class Shooting : MonoBehaviourPunCallbacks
         debugMessage = GameObject.Find("DebugLogs").GetComponent<TMPro.TMP_Text>();
         
         playerCount.text = "Player Left: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
-
         curHealth = maxHealth;
         healthBar.fillAmount = curHealth / maxHealth;
     }
@@ -91,8 +90,9 @@ public class Shooting : MonoBehaviourPunCallbacks
 
         currentKills++;
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "kills", currentKills } });
+
         debugMessage.text += "Player props set\n";
-        debugMessage.text += "Kill count updated to " + killCount.text + " kills\n";
+        debugMessage.text += "Kill count updated to " + currentKills + "\n";
     }
 #endregion
 
@@ -146,7 +146,6 @@ public class Shooting : MonoBehaviourPunCallbacks
     {
         if (targetPlayer == PhotonNetwork.LocalPlayer && changedProps.ContainsKey("kills"))
         {
-            // debugMessage.text += "New kill count: " + changedProps["kills"] + "\n";
             killCount.text = "Kills: " + changedProps["kills"].ToString();
         }
     }
