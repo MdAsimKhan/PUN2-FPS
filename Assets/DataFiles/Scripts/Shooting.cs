@@ -19,7 +19,7 @@ public class Shooting : MonoBehaviourPunCallbacks
 #region UnityMethods
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if(photonView.IsMine && Input.GetKeyDown(KeyCode.E))
         {
             Fire();
         }
@@ -45,17 +45,19 @@ public class Shooting : MonoBehaviourPunCallbacks
         {
             //blood effect showing on every player even if not hit
             // Player targetPlayer = hit.transform.GetComponent<PhotonView>().Owner;
-            photonView.RPC("CreateEffect", RpcTarget.Others, hit.point);
+            photonView.RPC("CreateEffect", RpcTarget.All, hit.point);
 
             if(hit.transform.tag == "Player" && !hit.transform.GetComponent<PhotonView>().IsMine)
             {
+                debugMessage.text += "Hit player " + hit.transform.GetComponent<PhotonView>().Owner.NickName + "\n";
                 // the player who is hit sends RPC to every other player to update its state as seen by them in their game
                 hit.transform.GetComponent<PhotonView>().RPC("TakeDamage", RpcTarget.AllBuffered, 10f, photonView.Owner.ActorNumber);
+                debugMessage.text += "TakeDamage " + hit.transform.GetComponent<PhotonView>().Owner.NickName + "\n";
             }
         }
     }
 
-    // not working
+    // works in more than 2 players
     private IEnumerator HideKillMessage()
     {
         yield return new WaitForSeconds(2f);
@@ -90,24 +92,16 @@ public class Shooting : MonoBehaviourPunCallbacks
 
         currentKills++;
         PhotonNetwork.LocalPlayer.SetCustomProperties(new ExitGames.Client.Photon.Hashtable { { "kills", currentKills } });
-
-        debugMessage.text += "Player props set\n";
-        debugMessage.text += "Kill count updated to " + currentKills + "\n";
+        PlayerPrefs.SetInt("KillCount", currentKills); // some err here, gives wrong output
+        debugMessage.text += "Kill count updated to " + PlayerPrefs.GetInt("KillCount", 0).ToString() + "\n";
     }
 #endregion
 
 #region PunRPCs
     [PunRPC]
-    public void UpdatePlayerUI(string msg, int cnt)
-    {
-        playerCount.text = "Players Left: " + cnt;
-        killMsg.text = msg;
-        StartCoroutine(HideKillMessage());
-    }
-
-    [PunRPC]
     public void TakeDamage(float damage, int attackerID, PhotonMessageInfo messageInfo)
     {
+        debugMessage.text += "Inside TakeDamage " + messageInfo.photonView.Owner.NickName + "\n";
         string msg;
         int cnt;
         curHealth -= damage;
@@ -138,6 +132,14 @@ public class Shooting : MonoBehaviourPunCallbacks
     {
         GameObject blood = Instantiate(bloodEffect, position, Quaternion.identity);
         Destroy(blood, 1f);
+    }
+
+    [PunRPC]
+    public void UpdatePlayerUI(string msg, int cnt)
+    {
+        playerCount.text = "Players Left: " + cnt;
+        killMsg.text = msg;
+        StartCoroutine(HideKillMessage());
     }
 #endregion
 

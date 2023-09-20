@@ -1,30 +1,20 @@
 using UnityEngine;
 using Photon.Pun;
-using SUPERCharacter;
-using UnityEngine.UI;
+using FirstPersonMobileTools.DynamicFirstPerson;
 
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
     public GameObject[] localPlayerItems, remotePlayerItems;
     public GameObject playerCamera;
-    public Button fireButton;
-    private Shooting shooting;
-    
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.E))
-        {
-            shooting.Fire();
-        }
-    }
+    public MovementController movementController;
+    public CameraLook cameraLook;
+    public Animator animator;
+    public AnimationController animationController;
     
     void Start()
     {
         if(PhotonNetwork.IsConnected)
         {
-            shooting = GetComponent<Shooting>();
-            fireButton.onClick.AddListener(shooting.Fire);
-            
             // local player
             if(photonView.IsMine)
             {
@@ -38,7 +28,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
                     g.SetActive(false);
                 }
 
-                GetComponent<SUPERCharacterAIO>().cameraPerspective = PerspectiveModes._1stPerson;
+                animator.SetBool("isRemote", false);
                 playerCamera.SetActive(true);
             }
             
@@ -55,7 +45,10 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
                     g.SetActive(false);
                 }
                 
-                GetComponent<SUPERCharacterAIO>().enabled = false;
+                animator.SetBool("isRemote", true);
+                movementController.enabled = false;
+                cameraLook.enabled = false;
+                animationController.enabled = false;
                 playerCamera.SetActive(false);
             }
         }
