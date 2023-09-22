@@ -120,7 +120,7 @@ public class SUPERCharacterAIO : MonoBehaviour{
     public float hardSlopeLimit = 70, slopeInfluenceOnSpeed = 1, maxStairRise = 0.25f, stepUpSpeed=0.2f;
 
     //Jumping
-    public bool canJump=true,holdJump=false, jumpEnhancements=true, Jumped;
+    public bool canJump=true,holdJump=false, jumpEnhancements=true, Jumped=false;
     #if ENABLE_INPUT_SYSTEM
         public Key jumpKey = Key.Space;
     #else
@@ -153,13 +153,13 @@ public class SUPERCharacterAIO : MonoBehaviour{
     PhysicMaterial _ZeroFriction, _MaxFriction;
     CapsuleCollider capsule;
     Rigidbody p_Rigidbody;
-    bool crouchInput_Momentary, crouchInput_FrameOf, sprintInput_FrameOf,sprintInput_Momentary, slideInput_FrameOf, slideInput_Momentary;
+    public bool crouchInput_Momentary, crouchInput_FrameOf, sprintInput_FrameOf,sprintInput_Momentary, slideInput_FrameOf, slideInput_Momentary;
     bool changingStances = false; 
 
     //Slope Affectors
 
     //Jumping
-    bool jumpInput_Momentary, jumpInput_FrameOf;
+    public bool jumpInput_Momentary, jumpInput_FrameOf;
 
     //Sliding
     Vector3 cachedDirPreSlide, cachedPosPreSlide;
@@ -294,10 +294,7 @@ public class SUPERCharacterAIO : MonoBehaviour{
     [Space(18)]
     public bool enableGroundingDebugging = false, enableMovementDebugging = false, enableMouseAndCameraDebugging = false, enableVaultDebugging = false;
     #endregion
-    void Start(){
-   
-        
-        
+    void Start(){ 
         #region Camera
         maxCameraDistInternal = maxCameraDistance;
         initialCameraFOV = playerCamera.fieldOfView;
@@ -817,7 +814,6 @@ public class SUPERCharacterAIO : MonoBehaviour{
             playerCamera.transform.position = currentCameraPos;
         playerCamera.transform.rotation = quatHeadRot;
     }
-
     void UpdateBodyRotation_3rdPerson(){
          //if is moving, rotate capsule to match camera forward   //change button down to bool of isFiring or isTargeting
         if(!isIdle && !isSliding && currentGroundInfo.isGettingGroundInfo){
@@ -848,7 +844,7 @@ public class SUPERCharacterAIO : MonoBehaviour{
                 p_Rigidbody.AddForce(-new Vector3(p_Rigidbody.velocity.x,currentGroundInfo.isInContactWithGround? p_Rigidbody.velocity.y-  Physics.gravity.y:0,p_Rigidbody.velocity.z)*(decelerationSpeed*Time.fixedDeltaTime),ForceMode.Force); 
             }
             //normal speed
-            else if((currentGroundInfo.isGettingGroundInfo) && currentGroundInfo.groundAngle<hardSlopeLimit && currentGroundInfo.groundAngle_Raw<hardSlopeLimit){
+            else if(currentGroundInfo.isGettingGroundInfo && currentGroundInfo.groundAngle<hardSlopeLimit && currentGroundInfo.groundAngle_Raw<hardSlopeLimit){
                 p_Rigidbody.velocity = (Vector3.MoveTowards(p_Rigidbody.velocity,Vector3.ClampMagnitude(((Direction)*((Speed)*Time.fixedDeltaTime))+(Vector3.down),Speed/50),1));
             }
             capsule.sharedMaterial = InputDir.magnitude>0 ? _ZeroFriction : _MaxFriction;
@@ -1164,6 +1160,7 @@ public class SUPERCharacterAIO : MonoBehaviour{
                         break;
                     }
                 }
+                
                 case GroundSpeedProfiles.Sliding:{
                 }break;
             }
