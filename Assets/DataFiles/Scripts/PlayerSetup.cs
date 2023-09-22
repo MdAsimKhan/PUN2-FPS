@@ -1,17 +1,15 @@
 using UnityEngine;
 using Photon.Pun;
+using Photon.Voice.Unity;
 using SUPERCharacter;
-using FirstPersonMobileTools.DynamicFirstPerson;
 
 public class PlayerSetup : MonoBehaviourPunCallbacks
 {
     public GameObject[] localPlayerItems, remotePlayerItems;
     public GameObject playerCamera;
-    public MovementController movementController;
-    public CameraLook cameraLook;
     public Animator animator;
-    // public AnimationController animationController;
     public SuperAnimator superAnimator;
+    private Recorder recorder;
     
     void Start()
     {
@@ -19,6 +17,7 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
         {
             animator = GetComponent<Animator>();
             superAnimator = GetComponent<SuperAnimator>();
+            recorder = GetComponent<Recorder>();
             
             // local player
             if(photonView.IsMine)
@@ -53,12 +52,20 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
                 
                 GetComponent<SUPERCharacterAIO>().enabled = false;
                 animator.SetBool("isRemote", true);
-                // movementController.enabled = false;
-                // cameraLook.enabled = false;
-                // animationController.enabled = false;
+                recorder.enabled = false;
                 superAnimator.enabled = false;
                 playerCamera.SetActive(false);
             }
         }
+    }
+
+    public void ToggleMute()
+    {
+        recorder.TransmitEnabled = !recorder.TransmitEnabled;
+    }
+
+    public void ToggleMuteAll()
+    {
+        
     }
 }
