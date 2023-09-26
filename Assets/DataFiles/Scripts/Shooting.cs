@@ -43,8 +43,6 @@ public class Shooting : MonoBehaviourPunCallbacks
     {
         if (Physics.Raycast(FPS_Camera.transform.position, FPS_Camera.transform.forward, out RaycastHit hit))
         {
-            //blood effect showing on every player even if not hit
-            // Player targetPlayer = hit.transform.GetComponent<PhotonView>().Owner;
             photonView.RPC("CreateEffect", RpcTarget.All, hit.point);
 
             if(hit.transform.tag == "Player" && !hit.transform.GetComponent<PhotonView>().IsMine)

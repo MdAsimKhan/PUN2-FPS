@@ -12,7 +12,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public GameObject loginPanel, connectingPanel, lobbyPanel, createRoomPanel, playGamePanel, joinRoomPanel;
     public GameObject playerListContent, playDetails;
     public GameObject playButton;
-    public Button readyButton;
     public TMP_Text roomName;
 
     #endregion
@@ -25,6 +24,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     #region UnityMethods
     void Start()
     {
+        playButton.GetComponent<Button>().onClick.AddListener(OnPlayClicked);
+
         if(PhotonNetwork.IsConnected)
         {
             ActivatePanel(lobbyPanel.name);
@@ -145,6 +146,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
+    void OnPlayClicked()
+    {
+        PhotonNetwork.LoadLevel("Game");
+    }
     #endregion
 
     #region Photon_Callbacks
