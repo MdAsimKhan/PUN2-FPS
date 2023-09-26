@@ -66,6 +66,6 @@ public class PlayerSetup : MonoBehaviourPunCallbacks
 
     public void ToggleMuteAll()
     {
-        
+        FindObjectOfType<Speaker>().enabled = !FindObjectOfType<Speaker>().enabled;
     }
 }
