@@ -10,18 +10,63 @@ public class Shooting : MonoBehaviourPunCallbacks
     public Camera FPS_Camera;
     public GameObject bloodEffect;
     public TMP_Text playerCount, killCount, killMsg, debugMessage;
-    
+    public AudioClip fireClip;
     [Header("Health")]
     public float maxHealth = 100f;
     public float curHealth;
     public Image healthBar;
+    // private AudioSource audioSource;
 
 #region UnityMethods
+    // private void Update()
+    // {
+    //     if(photonView.IsMine && Input.GetKey(KeyCode.E))
+    //     {
+    //         Fire();
+    //         GetComponent<AudioSource>().PlayOneShot(fireClip);
+    //     }
+    // }
+    
+    private bool isFiring = false;
+
     private void Update()
     {
-        if(photonView.IsMine && Input.GetKeyDown(KeyCode.E))
+        if (photonView.IsMine)
         {
+            // Check if the "E" key is being pressed
+            if (Input.GetKey(KeyCode.E))
+            {
+                // If not already firing, start firing and playing audio
+                if (!isFiring)
+                {
+                    isFiring = true;
+                    StartCoroutine(FireAndPlayAudio());
+                }
+            }
+            else
+            {
+                // If "E" key is released, stop firing and audio
+                if (isFiring)
+                {
+                    isFiring = false;
+                    StopCoroutine(FireAndPlayAudio());
+                }
+            }
+        }
+    }
+
+    private IEnumerator FireAndPlayAudio()
+    {
+        while (isFiring)
+        {
+            // Call your Fire function (assuming it handles firing)
             Fire();
+
+            // Play the firing sound as a one-shot (non-looping)
+            GetComponent<AudioSource>().PlayOneShot(fireClip);
+
+            // Adjust this delay to control the firing rate
+            yield return new WaitForSeconds(0.2f); // Adjust as needed
         }
     }
 
@@ -31,7 +76,6 @@ public class Shooting : MonoBehaviourPunCallbacks
         killCount = GameObject.Find("KillCountText").GetComponent<TMPro.TMP_Text>();
         killMsg = GameObject.Find("KillMsgText").GetComponent<TMPro.TMP_Text>();
         debugMessage = GameObject.Find("DebugLogs").GetComponent<TMPro.TMP_Text>();
-        
         playerCount.text = "Player Left: " + PhotonNetwork.CurrentRoom.PlayerCount.ToString();
         curHealth = maxHealth;
         healthBar.fillAmount = curHealth / maxHealth;
