@@ -1,8 +1,8 @@
-using UnityEngine;
 using Photon.Pun;
-using TMPro;
 using Photon.Realtime;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
@@ -13,7 +13,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public GameObject playerListContent, playDetails;
     public GameObject playButton;
     public TMP_Text roomName;
-
+    public string GameSceneName;
     #endregion
 
     #region Private_Variables
@@ -26,7 +26,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         playButton.GetComponent<Button>().onClick.AddListener(OnPlayClicked);
 
-        if(PhotonNetwork.IsConnected)
+        if (PhotonNetwork.IsConnected)
         {
             ActivatePanel(lobbyPanel.name);
         }
@@ -40,7 +40,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Network State: " + PhotonNetwork.NetworkClientState);
     }
-    
+
     #endregion
 
     #region UIMethods
@@ -48,7 +48,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         string name = playerName.text + "_" + System.Guid.NewGuid().ToString("N")[..4];
 
-        if(!string.IsNullOrEmpty(name))
+        if (!string.IsNullOrEmpty(name))
         {
             PhotonNetwork.LocalPlayer.NickName = name;
             PhotonNetwork.ConnectUsingSettings();
@@ -71,12 +71,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.LeaveRoom();
         ActivatePanel(lobbyPanel.name);
     }
-    
+
     public void OnCreateRoomClick()
     {
         string room = newRoomName.text;
 
-        if(maxPlayers.text == "")
+        if (maxPlayers.text == "")
         {
             maxPlayers.text = "4";
         }
@@ -107,7 +107,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         string room = roomToJoin.text;
 
-        if(!string.IsNullOrEmpty(room))
+        if (!string.IsNullOrEmpty(room))
         {
             PhotonNetwork.JoinRoom(room);
         }
@@ -148,7 +148,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     void OnPlayClicked()
     {
-        PhotonNetwork.LoadLevel("Game");
+        PhotonNetwork.LoadLevel(GameSceneName);
     }
     #endregion
 
@@ -161,7 +161,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
-        Debug.Log(PhotonNetwork.LocalPlayer.NickName +  " disconnected from Photon: " + cause.ToString());
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName + " disconnected from Photon: " + cause.ToString());
     }
 
     public override void OnConnectedToMaster()
@@ -182,7 +182,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         ActivatePanel(playGamePanel.name);
         roomName.text = "Room: " + PhotonNetwork.CurrentRoom.Name;
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             playButton.SetActive(true);
         }
@@ -206,12 +206,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         Destroy(playerListEntries[otherPlayer.ActorNumber].gameObject);
         playerListEntries.Remove(otherPlayer.ActorNumber);
 
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             playButton.SetActive(true);
         }
     }
-    
+
     // Called for LOCAL PLAYER (if I leave)
     /// <summary>
     /// Local player is me. For me eveyr other player is remote player.
@@ -220,7 +220,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     /// </summary>
     public override void OnLeftRoom()
     {
-        foreach(GameObject player in playerListEntries.Values)
+        foreach (GameObject player in playerListEntries.Values)
         {
             Destroy(player.gameObject);
         }
