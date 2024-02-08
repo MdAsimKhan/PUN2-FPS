@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5760,6 +5760,7 @@ MonoBehaviour:
   playDetails: {fileID: 1631399882405410726, guid: 3102de57b6bf7cf46b777eb936ebc535, type: 3}
   playButton: {fileID: 115127626}
   roomName: {fileID: 1849202074}
+  GameSceneName: ChatGame
 --- !u!4 &1522954407
 Transform:
   m_ObjectHideFlags: 0

@@ -15,11 +15,11 @@ MonoBehaviour:
   AppSettings:
     AppIdRealtime: 3d7a4c45-329e-4590-9513-90ddcfc67416
     AppIdFusion: 
-    AppIdChat: 
+    AppIdChat: ed5d94a6-17d0-47cd-b2c0-a6d29f51845e
     AppIdVoice: ec7d7c3f-fd95-4490-ad67-26cd5cdcdd7a
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: in
+    FixedRegion: asia
     Server: 
     Port: 0
     ProxyServer: 
@@ -28,7 +28,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: in
+  DevRegion: asia
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -47,6 +47,10 @@ MonoBehaviour:
   - TakeDamage
   - UpdatePlayerUI
   - UpdateReadyCount
+  - CheckChatMessage
+  - ShowEmoji
+  - ShowEmojiPrivate
+  - ShowPlayerNameInMessenger
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
